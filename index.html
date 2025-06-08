@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer & Stopwatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .timer-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            grid-column: 1 / -1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .countdown-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            width: 60px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .expired {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .display {
+                font-size: 2rem;
+            }
+            
+            .timer-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Timer & Stopwatch</h1>
+        
+        <!-- Countdown Timer -->
+        <div class="timer-section">
+            <h2>Countdown Timer</h2>
+            <div class="countdown-inputs">
+                <input type="number" id="hours" placeholder="HH" min="0" max="23">
+                <span>:</span>
+                <input type="number" id="minutes" placeholder="MM" min="0" max="59">
+                <span>:</span>
+                <input type="number" id="seconds" placeholder="SS" min="0" max="59">
+            </div>
+            <div id="countdownDisplay" class="display">00:00:00</div>
+            <div class="controls">
+                <button onclick="startCountdown()">Start</button>
+                <button onclick="pauseCountdown()">Pause</button>
+                <button onclick="resetCountdown()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Stopwatch -->
+        <div class="timer-section">
+            <h2>Stopwatch</h2>
+            <div id="stopwatchDisplay" class="display">00:00:00</div>
+            <div class="controls">
+                <button onclick="startStopwatch()">Start</button>
+                <button onclick="pauseStopwatch()">Pause</button>
+                <button onclick="resetStopwatch()">Reset</button>
+                <button onclick="lapStopwatch()">Lap</button>
+            </div>
+            <div id="lapTimes" style="margin-top: 20px; font-size: 0.9rem;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer Variables
+        let countdownInterval;
+        let countdownTime = 0;
+        let countdownRunning = false;
+
+        // Stopwatch Variables
+        let stopwatchInterval;
+        let stopwatchTime = 0;
+        let stopwatchRunning = false;
+        let lapCounter = 1;
+
+        // Format time function
+        function formatTime(totalSeconds) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Countdown Timer Functions
+        function startCountdown() {
+            if (!countdownRunning) {
+                if (countdownTime === 0) {
+                    const hours = parseInt(document.getElementById('hours').value) || 0;
+                    const minutes = parseInt(document.getElementById('minutes').value) || 0;
+                    const seconds = parseInt(document.getElementById('seconds').value) || 0;
+                    
+                    countdownTime = hours * 3600 + minutes * 60 + seconds;
+                    
+                    if (countdownTime === 0) {
+                        alert('Please set a time for the countdown!');
+                        return;
+                    }
+                }
+                
+                countdownRunning = true;
+                countdownInterval = setInterval(() => {
+                    if (countdownTime > 0) {
+                        countdownTime--;
+                        document.getElementById('countdownDisplay').textContent = formatTime(countdownTime);
+                    } else {
+                        clearInterval(countdownInterval);
+                        countdownRunning = false;
+                        document.getElementById('countdownDisplay').classList.add('expired');
+                        document.getElementById('countdownDisplay').textContent = "TIME'S UP!";
+                        
+                        // Optional: Play sound or show notification
+                        if ('Notification' in window) {
+                            Notification.requestPermission().then(permission => {
+                                if (permission === 'granted') {
+                                    new Notification('Timer Finished!', {
+                                        body: 'Your countdown timer has reached zero.',
+                                        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⏰</text></svg>'
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseCountdown() {
+            if (countdownRunning) {
+                clearInterval(countdownInterval);
+                countdownRunning = false;
+            }
+        }
+
+        function resetCountdown() {
+            clearInterval(countdownInterval);
+            countdownRunning = false;
+            countdownTime = 0;
+            document.getElementById('countdownDisplay').textContent = '00:00:00';
+            document.getElementById('countdownDisplay').classList.remove('expired');
+            document.getElementById('hours').value = '';
+            document.getElementById('minutes').value = '';
+            document.getElementById('seconds').value = '';
+        }
+
+        // Stopwatch Functions
+        function startStopwatch() {
+            if (!stopwatchRunning) {
+                stopwatchRunning = true;
+                stopwatchInterval = setInterval(() => {
+                    stopwatchTime++;
+                    document.getElementById('stopwatchDisplay').textContent = formatTime(stopwatchTime);
+                }, 1000);
+            }
+        }
+
+        function pauseStopwatch() {
+            if (stopwatchRunning) {
+                clearInterval(stopwatchInterval);
+                stopwatchRunning = false;
+            }
+        }
+
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            stopwatchRunning = false;
+            stopwatchTime = 0;
+            lapCounter = 1;
+            document.getElementById('stopwatchDisplay').textContent = '00:00:00';
+            document.getElementById('lapTimes').innerHTML = '';
+        }
+
+        function lapStopwatch() {
+            if (stopwatchRunning) {
+                const lapTime = formatTime(stopwatchTime);
+                const lapDiv = document.createElement('div');
+                lapDiv.textContent = `Lap ${lapCounter}: ${lapTime}`;
+                lapDiv.style.padding = '5px 0';
+                lapDiv.style.borderBottom = '1px solid rgba(255,255,255,0.2)';
+                document.getElementById('lapTimes').appendChild(lapDiv);
+                lapCounter++;
+            }
+        }
+
+        // Initialize displays
+        document.getElementById('countdownDisplay').textContent = '00:00:00';
+        document.getElementById('stopwatchDisplay').textContent = '00:00:00';
+
+        // Request notification permission on page load
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+    </script>
+</body>
+</html>
