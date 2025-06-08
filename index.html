@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CO2 Breathing Breakthrough Guide</title>
+    <title>CO2 breathing breakthrough guide</title>
     <style>
         * {
             margin: 0;
@@ -183,11 +183,11 @@
     <div class="container">
         <!-- Main Menu -->
         <div id="mainMenu">
-            <h1>The CO2 Breathing Breakthrough Guide</h1>
+            <h1>The CO2 breathing breakthrough guide</h1>
             <div class="subtitle">Reset Your Breathing Thermostat to Improve Sleep Apnea Naturally</div>
             
             <div class="section">
-                <h3>🔍 Why CO2 Tolerance Matters</h3>
+                <h3>🔍 Why CO2 tolerance matters</h3>
                 <p>Many with sleep apnea hyperventilate - breathing pattern is too fast and shallow, especially during sleep. That:</p>
                 <ul style="margin: 10px 0 10px 20px;">
                     <li>Lowers carbon dioxide (CO2) levels</li>
@@ -199,7 +199,7 @@
             </div>
 
             <div class="section">
-                <h3>🧠 The Core Idea: Reset Your Breathing Thermostat</h3>
+                <h3>🧠 The core idea: reset your breathing thermostat</h3>
                 <p>CO2 tolerance is like a thermostat for breathing:</p>
                 <ul style="margin: 10px 0 10px 20px;">
                     <li>Low CO2 tolerance = hypersensitive thermostat = fast breathing = friction = airway collapse</li>
@@ -210,14 +210,14 @@
             <div class="section menu-section">
                 <h3>👉 Pick your training</h3>
                 <div class="button-grid">
-                    <button onclick="showRelaxedPauseTest()">Measure Relaxed Pause</button>
-                    <button onclick="deleteRelaxedPauseData()">Delete Pause Data</button>
-                    <button onclick="typeAtraining()">Type A - Fixed Hold, Decreasing Rest</button>
-                    <button onclick="typeBtraining()">Type B - Increasing Hold, Fixed Rest</button>
-                    <button onclick="typeCtraining()">Type C "Tidal breathing" - Fixed Hold, Fixed Rest, Loop</button>
+                    <button onclick="showRelaxedPauseTest()">Measure relaxed pause</button>
+                    <button onclick="deleteRelaxedPauseData()">Delete relaxed pause data</button>
+                    <button onclick="typeAtraining()">Type A - fixed hold, decreasing rest</button>
+                    <button onclick="typeBtraining()">Type B - increasing hold, fixed rest</button>
+                    <button onclick="typeCtraining()">Type C "Tidal breathing" - Fixed hold, Fixed rest</button>
                 </div>
                 <div style="text-align: center; margin-top: 15px;">
-                    <p>Current Relaxed Pause: <strong><span id="currentPauseValue">Not measured</span></strong></p>
+                    <p>Current relaxed pause: <strong><span id="currentPauseValue">Not measured</span></strong></p>
                 </div>
             </div>
         </div>
@@ -225,13 +225,13 @@
         <!-- Relaxed Pause Test -->
         <div id="relaxedPauseTest" class="hidden">
             <div class="section exercise-section">
-                <h2>Relaxed Pause Measurement</h2>
+                <h2>Relaxed pause measurement</h2>
                 <div class="instruction">
                     <p><strong>Instructions:</strong></p>
                     <p>1. Take a normal inhale, then a normal exhale.<br>
                     2. Hold your breath after the exhale.<br>
                     3. When you feel the first natural urge to breathe, stop. Don't strain.<br>
-                    4. Time this — that's your Relaxed Pause.</p>
+                    4. Time this — that's your relaxed pause.</p>
                 </div>
                 
                 <div id="pauseStatus" class="status">Measurement starts in 5 seconds</div>
@@ -239,8 +239,8 @@
                 
                 <div class="measurement-controls">
                     <button id="startPauseBtn" onclick="startRelaxedPauseTest()">Start Test</button>
-                    <button id="stopPauseBtn" onclick="stopRelaxedPauseTest()" class="hidden">Stop When You Feel Urge</button>
-                    <button onclick="showMainMenu()">Back to Menu</button>
+                    <button id="stopPauseBtn" onclick="stopRelaxedPauseTest()" class="hidden">Stop when you feel the urge</button>
+                    <button onclick="showMainMenu()">Back to menu</button>
                 </div>
             </div>
         </div>
@@ -255,11 +255,11 @@
                 <div id="roundInfo" class="round-info"></div>
                 
                 <div class="measurement-controls">
-                    <button id="startExerciseBtn" onclick="startCurrentExercise()">Start Exercise</button>
+                    <button id="startExerciseBtn" onclick="startCurrentExercise()">Start exercise</button>
                     <button id="nextPhaseBtn" onclick="nextPhase()" class="hidden">Next</button>
                     <button id="continueBtn" onclick="continueExercise()" class="hidden">Continue (1)</button>
                     <button id="stopBtn" onclick="stopExercise()" class="hidden">Stop (0)</button>
-                    <button onclick="showMainMenu()">Back to Menu</button>
+                    <button onclick="showMainMenu()">Back to menu</button>
                 </div>
             </div>
         </div>
@@ -447,7 +447,7 @@
             if (!ensureRelaxedPauseValue()) return;
             
             showExerciseArea();
-            document.getElementById('exerciseTitle').textContent = 'Type A - Fixed Breath Hold, Decreasing Rest';
+            document.getElementById('exerciseTitle').textContent = 'Type A - Fixed breath hold, decreasing rest';
             document.getElementById('exerciseInstructions').innerHTML = `
                 <p><strong>Exercise:</strong> Fixed breath hold (${relaxedPauseValue}s), decreasing rest time</p>
                 <p>Rest starts at 60s and decreases by 10s each round</p>
@@ -467,7 +467,7 @@
             if (!ensureRelaxedPauseValue()) return;
             
             showExerciseArea();
-            document.getElementById('exerciseTitle').textContent = 'Type B - Increasing Breath Hold, Fixed Rest';
+            document.getElementById('exerciseTitle').textContent = 'Type B - Increasing breath hold, fixed rest';
             document.getElementById('exerciseInstructions').innerHTML = `
                 <p><strong>Exercise:</strong> Increasing breath hold, fixed rest (20s)</p>
                 <p>Hold times: -30%, -15%, 0%, +15%, +30% of your relaxed pause (${relaxedPauseValue}s)</p>
@@ -490,7 +490,7 @@
             showExerciseArea();
             document.getElementById('exerciseTitle').textContent = 'Type C - Tidal Breath';
             document.getElementById('exerciseInstructions').innerHTML = `
-                <p><strong>Tidal Breath - Fixed Breath Hold, Fixed Rest, Infinite Loop</strong></p>
+                <p><strong>Tidal Breath - Fixed breath hold, fixed rest, infinite loop</strong></p>
                 <p>Once you've learned the pattern you can repeat it at any time.<br>
                  Inhale slowly through nose or mouth, normal breath only<br>
                  Breathe from diaphragm if possible<br>
