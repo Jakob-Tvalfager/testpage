@@ -220,6 +220,47 @@
             return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
+        // Audio alert function
+        function playAlertSound() {
+            try {
+                // Create multiple tones for a more attention-grabbing sound
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Play a sequence of beeps
+                const frequencies = [800, 1000, 800, 1200]; // Different pitches
+                const duration = 200; // Each beep duration in ms
+                
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                        oscillator.type = 'sine';
+                        
+                        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration/1000);
+                        
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + duration/1000);
+                    }, index * (duration + 50));
+                });
+            } catch (error) {
+                console.log('Audio not supported or blocked');
+                // Fallback: try to play a system beep
+                if (window.speechSynthesis) {
+                    const utterance = new SpeechSynthesisUtterance('Timer finished');
+                    utterance.volume = 0.5;
+                    utterance.rate = 1.5;
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+        }
+
         // Countdown Timer Functions
         function startCountdown() {
             if (!countdownRunning) {
@@ -247,7 +288,10 @@
                         document.getElementById('countdownDisplay').classList.add('expired');
                         document.getElementById('countdownDisplay').textContent = "TIME'S UP!";
                         
-                        // Optional: Play sound or show notification
+                        // Play audio alert
+                        playAlertSound();
+                        
+                        // Show notification
                         if ('Notification' in window) {
                             Notification.requestPermission().then(permission => {
                                 if (permission === 'granted') {
