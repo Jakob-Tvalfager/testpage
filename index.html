@@ -187,6 +187,24 @@
             <h1>The CO2 tolerance breathwork trainer</h1>
             <div class="subtitle">Improve sleep apnea through restoring CO2 tolerance with breathwork</div>
             
+            <div class="section menu-section">
+                <h3>👉 Measure your relaxed pause</h3>
+                <div class="button-grid">
+                    <button onclick="showRelaxedPauseTest()">Measure relaxed pause</button>
+                    <button onclick="deleteRelaxedPauseData()">Delete relaxed pause data</button>
+                </div>
+                <h3>👉 Pick your training</h3>
+                <div class="button-grid">
+                    <button onclick="typeAtraining()">Type A<br>  <br>fixed hold, <br>decreasing rest ⬇️</button>
+                    <button onclick="typeBtraining()">Type B<br>  <br>increasing hold ⬆️, <br>fixed rest</button>
+                    <button onclick="typeCtraining()">Type C <br>"Tidal breathing"<br>  <br>fixed hold, <br>fixed rest</button>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <p>Current relaxed pause: <strong><span id="currentPauseValue">Not measured</span></strong></p>
+                    <p>(stored locally in the browser)</p>
+                </div>
+            </div>
+            
             <div class="section">
                 <h3>🔍 Why CO2 tolerance matters</h3>
                 <p>Many with sleep apnea hyperventilate - breathing pattern is too fast and shallow, especially during sleep. That:</p>
@@ -206,24 +224,6 @@
                     <li>Low CO2 tolerance = hypersensitive accelerator pad = shorter time until the urge to breathe = fast breathing = friction = airway collapse</li>
                     <li>High CO2 tolerance = Slow de-sensitized accelerator pad = longer time until the urge to breathe = slow, calm breathing = open airway</li>
                 </ul>
-            </div>
-
-            <div class="section menu-section">
-                <h3>👉 Measure your relaxed pause</h3>
-                <div class="button-grid">
-                    <button onclick="showRelaxedPauseTest()">Measure relaxed pause</button>
-                    <button onclick="deleteRelaxedPauseData()">Delete relaxed pause data</button>
-                </div>
-                <h3>👉 Pick your training</h3>
-                <div class="button-grid">
-                    <button onclick="typeAtraining()">Type A<br>  <br>fixed hold, <br>decreasing rest ⬇️</button>
-                    <button onclick="typeBtraining()">Type B<br>  <br>increasing hold ⬆️, <br>fixed rest</button>
-                    <button onclick="typeCtraining()">Type C <br>"Tidal breathing"<br>  <br>fixed hold, <br>fixed rest</button>
-                </div>
-                <div style="text-align: center; margin-top: 15px;">
-                    <p>Current relaxed pause: <strong><span id="currentPauseValue">Not measured</span></strong></p>
-                    <p>(stored locally in the browser)</p>
-                </div>
             </div>
         </div>
 
